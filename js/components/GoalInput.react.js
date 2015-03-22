@@ -2,7 +2,7 @@
 
 var React = require('react');
 
-var LogInput = React.createClass({
+var GoalInput = React.createClass({
 
 	render: function() {
 		return (
@@ -12,4 +12,4 @@ var LogInput = React.createClass({
 
 });
 
-module.exports = LogInput;
+module.exports = GoalInput;

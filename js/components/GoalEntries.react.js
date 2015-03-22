@@ -1,6 +1,6 @@
 var React = require('react');
 
-var LogEntries = React.createClass({
+var GoalEntries = React.createClass({
 
     render: function() {
         return (
@@ -21,4 +21,4 @@ var LogEntries = React.createClass({
 
 });
 
-module.exports = LogEntries;
+module.exports = GoalEntries;
