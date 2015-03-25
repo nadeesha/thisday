@@ -35,11 +35,25 @@ input:hover {
   color: rgba(255, 255, 255, 0.6);
   font-weight: 100; }
 
-.t-list {
+.t-entries {
   font-size: large;
-  margin: 10px; }
-  .t-list li {
-    margin-top: 10px; }
+  margin-top: 10px; }
+  .t-entries div {
+    margin-top: 10px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2); }
+    .t-entries div > * {
+      margin-left: 10px; }
+    .t-entries div > button {
+      background-color: rgba(255, 255, 255, 0.2);
+      border: 1px solid rgba(255, 255, 255, 0.5);
+      display: none;
+      line-height: 15px;
+      font-size: medium; }
+    .t-entries div > button:hover {
+      background-color: rgba(255, 255, 255, 0.3); }
+  .t-entries div:hover > button {
+    display: inline; }
 
 .t-widget {
   background-color: rgba(255, 255, 255, 0.25);

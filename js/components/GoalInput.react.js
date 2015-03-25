@@ -8,11 +8,24 @@ var console = window.console;
 
 var GoalInput = React.createClass({
 
-	getInitialState: function () {
-		return {
-			rawInput: '',
-		};
-	},
+    getInitialState: function() {
+        return {
+            rawInput: ''
+        };
+    },
+
+    componentWillReceiveProps: function(newProps) {
+        var editing = newProps && newProps.toEdit;
+
+        if (editing) {
+            this.setState({
+                rawInput: [editing.text, ' +', editing.points].join(''),
+                points: editing.points,
+                text: editing.text,
+                id: editing._id
+            });
+        }
+    },
 
     _onKeyDown: function(event) {
         if (event.keyCode === Constants.ENTER_KEY_CODE) {
@@ -21,27 +34,37 @@ var GoalInput = React.createClass({
     },
 
     _saveGoal: function(argument) {
-        if (this.state.points && this.state.text) {
-        	GoalActions.create({
-        		points: this.state.points,
-        		text: this.state.text
-        	});
-
-        	this.setState({
-        		points: null,
-        		text: null,
-        		rawInput: ''
-        	});
-        } else {
-        	console.error(this.state.error);
+        if (!this.state.points || !this.state.text) {
+            console.error(this.state.error);
         }
+
+        if (!this.props.toEdit) {
+            GoalActions.create({
+                points: this.state.points,
+                text: this.state.text
+            });
+        } else {
+            GoalActions.update(this.state.id, {
+                points: this.state.points,
+                text: this.state.text
+            });
+        }
+
+        this.setState({
+            points: null,
+            text: null,
+            rawInput: '',
+            id: null
+        });
+
+        this.props.doneEditing();
     },
 
     _onChange: function(event) {
         var text = event.target.value;
 
         this.setState({
-        	rawInput: event.target.value
+            rawInput: event.target.value
         });
 
         var tokens = text.split(' ');
@@ -59,7 +82,7 @@ var GoalInput = React.createClass({
         }
 
         var pointsText = pointsArray[0].slice(1, pointsArray[0].length);
-		var points = _.parseInt(pointsText);
+        var points = _.parseInt(pointsText);
 
         if (_.isNaN(points)) {
             this.setState({
@@ -70,30 +93,30 @@ var GoalInput = React.createClass({
         }
 
         this.setState({
-        	points: points
+            points: points
         });
 
-        var goalText = _.filter(tokens, function (token) {
-        	return !_.startsWith(token, '+');
+        var goalText = _.filter(tokens, function(token) {
+            return !_.startsWith(token, '+');
         });
 
         goalText = goalText.join(' ');
 
         this.setState({
-        	text: goalText
+            text: goalText
         });
     },
 
     render: function() {
         return (
             <input
-				type="text"
-				className="t-input"
-				placeholder="I am going to achieve this +5"
-				onKeyDown={this._onKeyDown}
-				value={this.state.rawInput}
-				onChange={this._onChange}
-			/>
+                type="text"
+                className="t-input"
+                placeholder="I am going to achieve this +5"
+                onKeyDown={this._onKeyDown}
+                value={this.state.rawInput}
+                onChange={this._onChange}
+            />
         );
     }
 

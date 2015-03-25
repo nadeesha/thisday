@@ -11,7 +11,7 @@ var _goals = [];
 var _db = new PouchDB(Constants.DB_NAME);
 
 function handleErr(err) {
-    console.error(err);
+    throw err;
 }
 
 function initiateSync(remoteDbUrl) {
@@ -38,7 +38,9 @@ var GoalStore = _.assign({}, EventEmitter.prototype, {
                 return row.doc;
             });
 
-            callback(docs || []);
+            docs = _.sortByAll(docs, ['createdOn']);
+
+            callback(docs);
         }).catch(handleErr);
     },
     emitChange: function() {
@@ -66,7 +68,7 @@ function update(id, updatedGoal) {
 }
 
 function remove(id) {
-    _.get(id).then(function(existingGoal) {
+    _db.get(id).then(function(existingGoal) {
         return _db.remove(existingGoal);
     }).then(GoalStore.emitChange.bind(GoalStore)).catch(handleErr);
 }

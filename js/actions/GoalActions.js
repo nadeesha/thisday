@@ -20,9 +20,10 @@ GoalActions.update = function (id, goal) {
 	});
 };
 
-GoalActions.delete = function (id) {
+GoalActions.remove = function (id) {
 	AppDispatcher.dispatch({
-		actionType: Constants.GOAL_REMOVE
+		actionType: Constants.GOAL_REMOVE,
+		id: id
 	});
 };
 
