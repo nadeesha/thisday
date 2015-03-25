@@ -10,7 +10,7 @@ var GoalsView = React.createClass({
         return (
             <div className="col-md-6">
                 <GoalInput />
-                <GoalEntries />
+                <GoalEntries allGoals={this.props.allGoals} />
             </div>
         );
     }
