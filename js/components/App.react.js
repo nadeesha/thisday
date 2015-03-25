@@ -7,6 +7,12 @@ var GoalStore = require('../stores/GoalStore');
 
 var App = React.createClass({
 
+    getInitialState: function () {
+        return {
+            allGoals: []
+        };
+    },
+
     componentDidMount: function() {
         GoalStore.addChangeListener(this._onChange);
         this._updateGoals();
@@ -21,7 +27,7 @@ var App = React.createClass({
             this.setState({
                 allGoals: goals
             });
-        });
+        }.bind(this));
     },
 
     _onChange: function() {

@@ -8,6 +8,12 @@ var console = window.console;
 
 var GoalInput = React.createClass({
 
+	getInitialState: function () {
+		return {
+			rawInput: '',
+		};
+	},
+
     _onKeyDown: function(event) {
         if (event.keyCode === Constants.ENTER_KEY_CODE) {
             this._saveGoal();
@@ -20,6 +26,12 @@ var GoalInput = React.createClass({
         		points: this.state.points,
         		text: this.state.text
         	});
+
+        	this.setState({
+        		points: null,
+        		text: null,
+        		rawInput: ''
+        	});
         } else {
         	console.error(this.state.error);
         }
@@ -27,6 +39,11 @@ var GoalInput = React.createClass({
 
     _onChange: function(event) {
         var text = event.target.value;
+
+        this.setState({
+        	rawInput: event.target.value
+        });
+
         var tokens = text.split(' ');
 
         var pointsArray = _.filter(tokens, function(token) {

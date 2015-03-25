@@ -4,7 +4,7 @@ var AppDispatcher = require('../dispatcher/AppDispatcher');
 var EventEmitter = require('events').EventEmitter;
 var Constants = require('../constants/Constants');
 var _ = require('lodash');
-var PouchDB = window.PouchDB;
+var PouchDB = require('pouchdb');
 var console = window.console;
 
 var _goals = [];
@@ -20,15 +20,26 @@ function initiateSync(remoteDbUrl) {
 
 var GoalStore = _.assign({}, EventEmitter.prototype, {
     getAll: function(callback) {
-        _db.query({
-            map: function(doc) {
-                if (doc.type === Constants.TYPE_GOAL) {
-                    this.emit(doc);
-                }
+        _db.query(function map(doc) {
+            /* jshint ignore:start */
+
+            // this is toString'd and then eval'd
+            // so I have to hardcode type here
+
+            if (doc.type === 'goal') {
+                emit(doc);
             }
+
+            /* jshint ignore:end */
         }, {
-            reduce: false
-        }, callback);
+            include_docs: true
+        }).then(function (result) {
+            var docs = result.rows.map(function (row) {
+                return row.doc;
+            });
+
+            callback(docs || []);
+        }).catch(handleErr);
     },
     emitChange: function() {
         this.emit(Constants.CHANGE_EVENT);
@@ -45,28 +56,28 @@ function create(newGoal) {
     newGoal.type = Constants.TYPE_GOAL;
     newGoal.createdOn = new Date();
 
-    _db.post(newGoal).then(GoalStore.emitChange).catch(handleErr);
+    _db.post(newGoal).then(GoalStore.emitChange.bind(GoalStore)).catch(handleErr);
 }
 
 function update(id, updatedGoal) {
     _db.get(id).then(function(existingGoal) {
         return _db.put(_.assign({}, existingGoal, updatedGoal));
-    }).then(GoalStore.emitChange).catch(handleErr);
+    }).then(GoalStore.emitChange.bind(GoalStore)).catch(handleErr);
 }
 
 function remove(id) {
     _.get(id).then(function(existingGoal) {
         return _db.remove(existingGoal);
-    }).then(GoalStore.emitChange).catch(handleErr);
+    }).then(GoalStore.emitChange.bind(GoalStore)).catch(handleErr);
 }
 
 AppDispatcher.register(function(action) {
     switch (action.actionType) {
         case Constants.GOAL_CREATE:
-            create(action.goal);
+            create(action.created);
             break;
         case Constants.GOAL_UPDATE:
-            update(action.id, action.goal);
+            update(action.id, action.updated);
             break;
         case Constants.GOAL_REMOVE:
             remove(action.id);
@@ -75,3 +86,5 @@ AppDispatcher.register(function(action) {
             console.log('unhandled action', action);
     }
 });
+
+module.exports = GoalStore;
