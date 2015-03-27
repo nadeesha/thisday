@@ -10,7 +10,11 @@ var Constants = {
 	CHANGE_EVENT: 'change',
 	TYPE_GOAL: 'goal',
 	ENTER_KEY_CODE: 13,
-	CHANGE_COMPLETION_DATE: 'chanege_completion_date'
+	CHANGE_COMPLETION_DATE: 'change_completion_date',
+	DATE_FORMAT: 'MMM Do YYYY',
+	TYPE_INTEGER: 'type_integer',
+	TYPE_PERCENTAGE: 'type_percentage',
+	TYPE_STRING: 'type_string',
 };
 
 module.exports = Constants;

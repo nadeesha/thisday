@@ -2,17 +2,17 @@
 
 var React = require('react');
 var Sparkline = require('react-sparkline');
-var _ = require('lodash');
 var moment = require('moment');
+var Constants = require('../constants/Constants');
 
 var SparklineWidget = React.createClass({
 
 	render: function() {
 		var values = [];
-		var datesHashMap = _.indexBy(this.props.data, 'key');
+		var datesHashMap = this.props.data;
 
 		for (var i = 13; i >= 0; i--) {
-			var date = (moment().subtract(i, 'days').format('MMM Do'));
+			var date = (moment().subtract(i, 'days').format(Constants.DATE_FORMAT));
 
 			var points = datesHashMap[date] ? datesHashMap[date].value : 0;
 

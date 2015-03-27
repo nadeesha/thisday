@@ -17,7 +17,7 @@ function handleErr(err) {
 function getPointsByDate(callback) {
     function map(doc, emit) {
         if (doc.type === 'goal' && doc.done) {
-            emit(moment(doc.completedOn).format('MMM Do'), Number(doc.points));
+            emit(moment(doc.completedOn).format(Constants.DATE_FORMAT), Number(doc.points));
         }
     }
 

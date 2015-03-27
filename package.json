@@ -9,6 +9,7 @@
     "flux": "^2.0.1",
     "keymirror": "~0.1.0",
     "moment": "^2.9.0",
+    "numeral": "^1.5.3",
     "object-assign": "^1.0.0",
     "pouchdb": "^3.3.1",
     "react": "^0.12.0",
