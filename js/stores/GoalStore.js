@@ -7,34 +7,35 @@ var _ = require('lodash');
 var PouchDB = require('pouchdb');
 var console = window.console;
 
-var _goals = [];
 var _db = new PouchDB(Constants.DB_NAME);
+var _completionDate = new Date();
 
 function handleErr(err) {
     throw err;
 }
 
-function initiateSync(remoteDbUrl) {
-    PouchDB.sync(Constants.DB_NAME, remoteDbUrl);
-}
+// function initiateSync(remoteDbUrl) {
+//     PouchDB.sync(Constants.DB_NAME, remoteDbUrl);
+// }
 
 var GoalStore = _.assign({}, EventEmitter.prototype, {
     getAll: function(callback) {
-        _db.query(function map(doc) {
-            /* jshint ignore:start */
+        var map;
+        /* jshint ignore:start */
+        map = function(doc) {
+                // this is toString'd and then eval'd
+                // so I have to hardcode type here
 
-            // this is toString'd and then eval'd
-            // so I have to hardcode type here
-
-            if (doc.type === 'goal') {
-                emit(doc);
+                if (doc.type === 'goal') {
+                    emit(doc);
+                }
             }
-
             /* jshint ignore:end */
-        }, {
+
+        _db.query(map, {
             include_docs: true
-        }).then(function (result) {
-            var docs = result.rows.map(function (row) {
+        }).then(function(result) {
+            var docs = result.rows.map(function(row) {
                 return row.doc;
             });
 
@@ -42,6 +43,9 @@ var GoalStore = _.assign({}, EventEmitter.prototype, {
 
             callback(docs);
         }).catch(handleErr);
+    },
+    getCompletionDate: function() {
+        return _completionDate;
     },
     emitChange: function() {
         this.emit(Constants.CHANGE_EVENT);
@@ -57,6 +61,7 @@ var GoalStore = _.assign({}, EventEmitter.prototype, {
 function create(newGoal) {
     newGoal.type = Constants.TYPE_GOAL;
     newGoal.createdOn = new Date();
+    newGoal.done = false;
 
     _db.post(newGoal).then(GoalStore.emitChange.bind(GoalStore)).catch(handleErr);
 }
@@ -73,7 +78,26 @@ function remove(id) {
     }).then(GoalStore.emitChange.bind(GoalStore)).catch(handleErr);
 }
 
-AppDispatcher.register(function(action) {
+function toggleDone(id) {
+    _db.get(id).then(function(goal) {
+        goal.done = !goal.done;
+
+        if (goal.done) {
+            goal.completedOn = _completionDate;
+        } else {
+            goal.completedOn = null;
+        }
+
+        return _db.put(goal);
+    }).then(GoalStore.emitChange.bind(GoalStore)).catch(handleErr);
+}
+
+function changeCompletionDate(date) {
+    _completionDate = date;
+    GoalStore.emitChange()
+}
+
+GoalStore.dispatchToken = AppDispatcher.register(function(action) {
     switch (action.actionType) {
         case Constants.GOAL_CREATE:
             create(action.created);
@@ -83,6 +107,13 @@ AppDispatcher.register(function(action) {
             break;
         case Constants.GOAL_REMOVE:
             remove(action.id);
+            break;
+        case Constants.GOAL_MARK_AS_DONE:
+        case Constants.GOAL_MARK_AS_UNDONE:
+            toggleDone(action.id);
+            break;
+        case Constants.CHANGE_COMPLETION_DATE:
+            changeCompletionDate(action.date);
             break;
         default:
             console.log('unhandled action', action);

@@ -1,13 +1,14 @@
 'use strict';
 
 var React = require('react');
+var SparklineWidget = require('./SparklineWidget.react');
 
 var Dashboard = React.createClass({
 
     render: function() {
         return (
             <div className="col-md-6 t-widgets">
-                <div className="t-widget big"></div>
+                <SparklineWidget data={this.props.pointsByDate} />
                 <div className="t-widget">
                     <div>
                         <span>42</span>

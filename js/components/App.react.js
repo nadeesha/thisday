@@ -4,22 +4,38 @@ var React = require('react');
 var GoalsView = require('./GoalsView.react');
 var Dashboard = require('./Dashboard.react');
 var GoalStore = require('../stores/GoalStore');
+var WidgetStore = require('../stores/WidgetStore');
 
 var App = React.createClass({
 
     getInitialState: function () {
         return {
-            allGoals: []
+            allGoals: [],
+            pointsByDate: []
         };
     },
 
     componentDidMount: function() {
-        GoalStore.addChangeListener(this._onChange);
+        GoalStore.addChangeListener(this._onGoalStoreChange);
+        WidgetStore.addChangeListener(this._onWidgetStoreChange);
         this._updateGoals();
+        this._updateWidgets();
     },
 
     componentWillUnmount: function() {
-        GoalStore.removeChangeListener(this._onChange);
+        GoalStore.removeChangeListener(this._onGoalStoreChange);
+        WidgetStore.removeChangeListener(this._onWidgetStoreChange);
+    },
+
+    _onGoalStoreChange: function() {
+        this._updateGoals();
+        this.setState({
+            completionDate: GoalStore.getCompletionDate()
+        });
+    },
+
+    _onWidgetStoreChange: function () {
+        this._updateWidgets();
     },
 
     _updateGoals: function() {
@@ -30,15 +46,19 @@ var App = React.createClass({
         }.bind(this));
     },
 
-    _onChange: function() {
-        this._updateGoals();
+    _updateWidgets: function () {
+        WidgetStore.getPointsByDate(function (points) {
+            this.setState({
+                pointsByDate: points
+            });
+        }.bind(this));
     },
 
     render: function() {
         return (
             <div className="row">
-        		<GoalsView allGoals={this.state.allGoals} />
-        		<Dashboard />
+        		<GoalsView allGoals={this.state.allGoals} completionDate={this.state.completionDate} />
+        		<Dashboard pointsByDate={this.state.pointsByDate} />
     		</div>
         );
     }

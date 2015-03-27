@@ -27,4 +27,18 @@ GoalActions.remove = function (id) {
 	});
 };
 
+GoalActions.markAsDone = function (id) {
+	AppDispatcher.dispatch({
+		actionType: Constants.GOAL_MARK_AS_DONE,
+		id: id
+	});
+};
+
+GoalActions.changeCompletionDate = function (date) {
+	AppDispatcher.dispatch({
+		actionType: Constants.CHANGE_COMPLETION_DATE,
+		date: date
+	});
+};
+
 module.exports = GoalActions;

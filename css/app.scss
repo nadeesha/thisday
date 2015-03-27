@@ -3,9 +3,12 @@ body {
     background: lightseagreen;
     color: white;
 }
-textarea:focus, input:focus {
+
+textarea:focus,
+input:focus {
     outline: 0;
 }
+
 input {
     font-size: x-large;
     background: rgba(255, 255, 255, 0.2);
@@ -14,11 +17,13 @@ input {
     width: 100%;
     padding: 5px;
 }
+
 input:hover {
     border: 0px;
     border-bottom: 1px solid #FFF;
     background: rgba(255, 255, 255, 0.25);
 }
+
 @mixin placeholder {
     ::-webkit-input-placeholder {
         @content
@@ -33,32 +38,61 @@ input:hover {
         @content
     }
 }
+
 @include placeholder {
     color: rgba(255, 255, 255, 0.6);
     font-weight: 100;
 }
+
+.t-goal-date {
+    margin-bottom: 10px;
+    height: 25px;
+
+    > button {
+        margin-left: 10px;
+    }
+}
+
+div.t-action-component {
+    > .t-show-on-hover {
+        display: none;
+    }
+    &:hover > .t-show-on-hover {
+        display: inline-block;
+    }
+}
+
 .t-entries {
     font-size: large;
     margin-top: 10px;
-    div {
+    > .t-goal-entry {
+        height: 40px;
         margin-top: 10px;
         padding-bottom: 10px;
         // height: 50px;
-        border-bottom: 1px solid rgba(255,255,255,0.2);
-
+        border-bottom: 1px solid rgba(255, 255, 255, 0.2);
         >* {
             margin-left: 10px;
         }
-
-        >button {
-            background-color: rgba(255,255,255,0.2);
-            border: 1px solid rgba(255,255,255,0.5);
+        > button {
             display: none;
-            line-height: 15px;
-            font-size: medium;
         }
-        >button:hover {
-            background-color: rgba(255,255,255,0.3);
+        &.t-done {
+            >.t-text {
+                text-decoration: line-through;
+            }
+            >.t-date-selector {
+                width: 200px;
+                display: inline-block;
+                font-size: small;
+                height: 10px;
+                .Select-control {
+                    padding: 0px;
+                    .Select-placeholder {
+                        padding: 0px;
+                    }
+                }
+            }
         }
     }
     div:hover {
@@ -67,6 +101,7 @@ input:hover {
         }
     }
 }
+
 .t-widget {
     background-color: rgba(255, 255, 255, 0.25);
     width: 250px;
@@ -89,4 +124,14 @@ input:hover {
             color: rgba(255, 255, 255, 0.5);
         }
     }
+}
+
+button {
+    background-color: rgba(255, 255, 255, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    line-height: 14px;
+}
+
+button:hover {
+    background-color: rgba(255, 255, 255, 0.3);
 }
