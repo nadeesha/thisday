@@ -8,7 +8,7 @@ var GoalEntries = React.createClass({
 
     render: function() {
         var list = _.map(this.props.allGoals, function(goal) {
-            return (<GoalEntry goal={goal} edit={this.props.setCurrentlyEditing} />);
+            return (<GoalEntry key={goal._id} goal={goal} edit={this.props.setCurrentlyEditing} />);
         }, this);
 
         return (
