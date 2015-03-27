@@ -39,7 +39,7 @@ var GoalStore = _.assign({}, EventEmitter.prototype, {
                 return row.doc;
             });
 
-            docs = _.sortByAll(docs, ['createdOn']);
+            docs = _.sortByOrder(docs, ['done', 'points', 'createdOn'], [true, false, false]);
 
             callback(docs);
         }).catch(handleErr);
@@ -94,7 +94,7 @@ function toggleDone(id) {
 
 function changeCompletionDate(date) {
     _completionDate = date;
-    GoalStore.emitChange()
+    GoalStore.emitChange();
 }
 
 GoalStore.dispatchToken = AppDispatcher.register(function(action) {

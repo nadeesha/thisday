@@ -47,7 +47,6 @@ input:hover {
 .t-goal-date {
     margin-bottom: 10px;
     height: 25px;
-
     > button {
         margin-left: 10px;
     }
@@ -78,6 +77,7 @@ div.t-action-component {
             display: none;
         }
         &.t-done {
+            color: rgba(255, 255, 255, 0.5);
             >.t-text {
                 text-decoration: line-through;
             }

@@ -59,17 +59,19 @@ div.t-action-component:hover > .t-show-on-hover {
       margin-left: 10px; }
     .t-entries > .t-goal-entry > button {
       display: none; }
-    .t-entries > .t-goal-entry.t-done > .t-text {
-      text-decoration: line-through; }
-    .t-entries > .t-goal-entry.t-done > .t-date-selector {
-      width: 200px;
-      display: inline-block;
-      font-size: small;
-      height: 10px; }
-      .t-entries > .t-goal-entry.t-done > .t-date-selector .Select-control {
-        padding: 0px; }
-        .t-entries > .t-goal-entry.t-done > .t-date-selector .Select-control .Select-placeholder {
+    .t-entries > .t-goal-entry.t-done {
+      color: rgba(255, 255, 255, 0.5); }
+      .t-entries > .t-goal-entry.t-done > .t-text {
+        text-decoration: line-through; }
+      .t-entries > .t-goal-entry.t-done > .t-date-selector {
+        width: 200px;
+        display: inline-block;
+        font-size: small;
+        height: 10px; }
+        .t-entries > .t-goal-entry.t-done > .t-date-selector .Select-control {
           padding: 0px; }
+          .t-entries > .t-goal-entry.t-done > .t-date-selector .Select-control .Select-placeholder {
+            padding: 0px; }
   .t-entries div:hover > button {
     display: inline; }
 

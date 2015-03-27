@@ -23,6 +23,10 @@ var Dashboard = React.createClass({
         this._updateTime();
     },
 
+    componentWillUnmount: function () {
+        clearInterval(this._tickInterval);
+    },
+
     _tick: function() {
         this._tickInterval = setInterval(this._updateTime, 60000);
     },
@@ -74,6 +78,10 @@ var Dashboard = React.createClass({
         var dailyChange = points.today / points.yesterday - 1;
         var weeklyChange = points.thisweek / points.lastweek - 1;
 
+        var undoneGoals = _.filter(this.props.allGoals, function (goal) {
+            return !goal.done;
+        });
+
         return (
             <div className="col-md-6 t-widgets">
                 <SparklineWidget data={datesHashMap} />
@@ -82,13 +90,7 @@ var Dashboard = React.createClass({
                 <Widget name="Daily Change" value={dailyChange} type={Constants.TYPE_PERCENTAGE} />
                 <Widget name="Weekly Change" value={weeklyChange} type={Constants.TYPE_PERCENTAGE} />
                 <Widget name="Since Last" value={this.state.sinceLast} type={Constants.TYPE_STRING} />
-                <div className="t-widget">
-                    <div>
-                        <span>10</span>
-                        <div className="stat">Unfinished</div>
-                    </div>
-                </div>
-
+                <Widget name="Unfinished" value={undoneGoals.length} type={Constants.TYPE_INTEGER} />
             </div>
         );
     }
