@@ -105,9 +105,4 @@ button:hover {
   margin: 10px; }
 
 #header {
-  background: rgba(255, 255, 255, 0.5);
-  margin: 0 0 20px 0;
-  padding: 10px; }
-  #header .brand {
-    font-weight: 100;
-    font-size: 30px; }
+  margin: 0; }

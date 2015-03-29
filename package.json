@@ -12,7 +12,8 @@
     "numeral": "^1.5.3",
     "object-assign": "^1.0.0",
     "pouchdb": "^3.3.1",
-    "react": "^0.12.0",
+    "react": "^0.13.1",
+    "react-bootstrap": "^0.19.1",
     "react-datepicker": "git+ssh://git@github.com:Hacker0x01/react-datepicker.git#b81ecc5cde7d36546eb80c392c5481d3cc8d726b",
     "react-sparkline": "^1.0.0",
     "reflux": "^0.2.7"
