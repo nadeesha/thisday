@@ -1,7 +1,10 @@
 body {
-    margin: 50px;
     background: lightseagreen;
     color: white;
+}
+
+#view {
+    margin: 50px;
 }
 
 textarea:focus,
@@ -139,5 +142,15 @@ button:hover {
 .t-actions {
     .t-action {
         margin: 10px;
+    }
+}
+
+#header {
+    background: rgba(255, 255, 255, 0.5);
+    margin: 0 0 20px 0;
+    padding: 10px;
+    .brand {
+        font-weight: 100;
+        font-size: 30px;
     }
 }

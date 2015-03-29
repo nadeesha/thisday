@@ -5,6 +5,7 @@ var GoalsView = require('./GoalsView.react');
 var Dashboard = require('./Dashboard.react');
 var GoalStore = require('../stores/GoalStore');
 var WidgetStore = require('../stores/WidgetStore');
+var Header =  require('./Header.react');
 
 var App = React.createClass({
 
@@ -56,10 +57,13 @@ var App = React.createClass({
 
     render: function() {
         return (
-            <div className="row">
-        		<GoalsView allGoals={this.state.allGoals} completionDate={this.state.completionDate} />
-        		<Dashboard allGoals={this.state.allGoals} pointsByDate={this.state.pointsByDate} />
-    		</div>
+            <div id="container">
+                <Header />
+                <div className="row" id="view">
+                    <GoalsView allGoals={this.state.allGoals} completionDate={this.state.completionDate} />
+                    <Dashboard allGoals={this.state.allGoals} pointsByDate={this.state.pointsByDate} />
+                </div>
+            </div>
         );
     }
 
