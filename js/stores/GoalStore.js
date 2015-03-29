@@ -8,7 +8,7 @@ var PouchDB = require('pouchdb');
 var console = window.console;
 
 var _db = new PouchDB(Constants.DB_NAME);
-var _completionDate = new Date();
+var _completionDate = null;
 
 function handleErr(err) {
     throw err;
@@ -45,7 +45,7 @@ var GoalStore = _.assign({}, EventEmitter.prototype, {
         }).catch(handleErr);
     },
     getCompletionDate: function() {
-        return _completionDate;
+        return _completionDate || new Date();
     },
     emitChange: function() {
         this.emit(Constants.CHANGE_EVENT);
@@ -83,7 +83,7 @@ function toggleDone(id) {
         goal.done = !goal.done;
 
         if (goal.done) {
-            goal.completedOn = _completionDate;
+            goal.completedOn = GoalStore.getCompletionDate();
         } else {
             goal.completedOn = null;
         }

@@ -15,20 +15,20 @@ var Dashboard = React.createClass({
         };
     },
 
-    componentDidMount: function () {
+    componentDidMount: function() {
         this._tick();
     },
 
-    componentWillReceiveProps: function() {
-        this._updateTime();
-    },
-
-    componentWillUnmount: function () {
+    componentWillUnmount: function() {
         clearInterval(this._tickInterval);
     },
 
     _tick: function() {
-        this._tickInterval = setInterval(this._updateTime, 60000);
+        this._tickInterval = setInterval(function () {
+            this.setState({
+                sinceLast: this._updateTime()
+            });
+        }.bind(this), 60000);
     },
 
     _updateTime: function() {
@@ -44,12 +44,40 @@ var Dashboard = React.createClass({
             clearInterval(this._tickInterval);
         }
 
-        this.setState({
-            sinceLast: moment().diff(lastDone.completedOn, 'minutes')
+        var sinceLastHours = moment().diff(lastDone.completedOn, 'hours');
+        var sinceLastMinutes = moment().diff(lastDone.completedOn, 'minutes') - sinceLastHours * 60;
+        var sinceLastTmpl = _.template('<%= hours %>:<%= minutes %>');
+        var sinceLast = sinceLastTmpl({
+            hours: _.padLeft(sinceLastHours, 2, '0'),
+            minutes: _.padLeft(sinceLastMinutes, 2, '0')
         });
+
+        return sinceLast;
     },
 
     render: function() {
+        var sinceLast = this._updateTime();
+
+        var doneGoals = _.filter(this.props.allGoals, function(goal) {
+            return goal.done;
+        });
+
+        var lastDone = _.max(doneGoals, function(goal) {
+            return moment(goal.completedOn).valueOf();
+        });
+
+        if (!lastDone) {
+            clearInterval(this._tickInterval);
+        }
+
+        var sinceLastHours = moment().diff(lastDone.completedOn, 'hours');
+        var sinceLastMinutes = moment().diff(lastDone.completedOn, 'minutes') - sinceLastHours * 60;
+        var sinceLastTmpl = _.template('<%= hours %>:<%= minutes %>');
+        var sinceLast = sinceLastTmpl({
+            hours: _.padLeft(sinceLastHours, 2, '0'),
+            minutes: _.padLeft(sinceLastMinutes, 2, '0')
+        });
+
         var datesHashMap = _.indexBy(this.props.pointsByDate, 'key');
 
         var todaysDate = moment().format(Constants.DATE_FORMAT);
@@ -78,7 +106,7 @@ var Dashboard = React.createClass({
         var dailyChange = points.today / points.yesterday - 1;
         var weeklyChange = points.thisweek / points.lastweek - 1;
 
-        var undoneGoals = _.filter(this.props.allGoals, function (goal) {
+        var undoneGoals = _.filter(this.props.allGoals, function(goal) {
             return !goal.done;
         });
 
@@ -89,7 +117,7 @@ var Dashboard = React.createClass({
                 <Widget name="Yesterday" value={points.yesterday} type={Constants.TYPE_INTEGER} />
                 <Widget name="Daily Change" value={dailyChange} type={Constants.TYPE_PERCENTAGE} />
                 <Widget name="Weekly Change" value={weeklyChange} type={Constants.TYPE_PERCENTAGE} />
-                <Widget name="Since Last" value={this.state.sinceLast} type={Constants.TYPE_STRING} />
+                <Widget name="Since Last" value={sinceLast} type={Constants.TYPE_STRING} />
                 <Widget name="Unfinished" value={undoneGoals.length} type={Constants.TYPE_INTEGER} />
             </div>
         );

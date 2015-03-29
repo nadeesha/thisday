@@ -12,9 +12,16 @@ var GoalEntries = React.createClass({
         }, this);
 
         return (
-            <div className="t-entries">
-               {list}
-           </div>
+            <div>
+                <div className="t-entries">
+                    {list}
+                </div>
+                <div className="t-actions">
+                    <span className="t-action">
+                        Hide Completed
+                    </span>
+                </div>
+            </div>
         );
     }
 

@@ -104,7 +104,7 @@ div.t-action-component {
 
 .t-widget {
     background-color: rgba(255, 255, 255, 0.25);
-    width: 250px;
+    min-width: 250px;
     height: 150px;
     margin: 0px 10px 10px 0px;
     float: left;
@@ -113,12 +113,12 @@ div.t-action-component {
         width: 510px;
     }
     > div {
-        > span {
+        .value {
             font-size: 80px;
-            margin-top: 20px;
-            position: fixed;
+            // margin-top: 20px;
+            // position: fixed;
         }
-        .stat {
+        .key {
             font-size: 20px;
             text-align: right;
             color: rgba(255, 255, 255, 0.5);
@@ -134,4 +134,10 @@ button {
 
 button:hover {
     background-color: rgba(255, 255, 255, 0.3);
+}
+
+.t-actions {
+    .t-action {
+        margin: 10px;
+    }
 }

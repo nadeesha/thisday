@@ -32,7 +32,7 @@ var GoalsView = React.createClass({
     },
 
     _onDateRest: function() {
-        GoalActions.changeCompletionDate(moment().toDate());
+        GoalActions.changeCompletionDate(null);
     },
 
     render: function() {

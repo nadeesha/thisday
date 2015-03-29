@@ -23,8 +23,8 @@ var Widget = React.createClass({
         return (
             <div className="t-widget">
                 <div>
-                    <span>{formattedValue}</span>
-                    <div className="stat">{this.props.name}</div>
+                    <div className="key">{this.props.name}</div>
+                    <div className="value">{formattedValue}</div>
                 </div>
             </div>
         );
