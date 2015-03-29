@@ -1,8 +1,19 @@
 'use strict';
 
 var React = require('react');
-var Header =  require('./Header.react');
+var Header = require('./Header.react');
 var MyGoals = require('./MyGoals.react');
+
+var Router = require('react-router'),
+    RouteHandler = Router.RouteHandler,
+    Route = Router.Route;
+
+// var ReactBootstrap = require('react-bootstrap'),
+//     Nav = ReactBootstrap.Nav;
+
+// var ReactRouterBootstrap = require('react-router-bootstrap'),
+//     NavItemLink = ReactRouterBootstrap.NavItemLink,
+//     ButtonLink = ReactRouterBootstrap.ButtonLink;
 
 var App = React.createClass({
 
@@ -10,11 +21,19 @@ var App = React.createClass({
         return (
             <div id="container">
                 <Header />
-                <MyGoals />
+                <RouteHandler />
             </div>
         );
     }
 
 });
 
-module.exports = App;
+var routes = (
+    <Route handler={App} path="/">
+        <Route name="mygoals" path="mygoals" handler={MyGoals} />
+    </Route>
+);
+
+Router.run(routes, function(Handler) {
+    React.render(<Handler/>, document.body);
+});
