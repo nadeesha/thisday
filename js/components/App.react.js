@@ -50,7 +50,7 @@ var App = React.createClass({
         return (
             <div id="container">
                 <Header isLoggedIn={this.state.isLoggedIn} />
-                <div id="view">
+                <div id="view" className="container">
                     <RouteHandler />
                 </div>
             </div>

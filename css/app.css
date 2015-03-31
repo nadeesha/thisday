@@ -56,7 +56,9 @@ div.t-action-component:hover > .t-show-on-hover {
     border-bottom: 1px solid rgba(255, 255, 255, 0.2); }
     .t-entries > .t-goal-entry > * {
       margin-left: 10px; }
-    .t-entries > .t-goal-entry > button {
+    .t-entries > .t-goal-entry .t-entry-actions {
+      margin-top: 2px; }
+    .t-entries > .t-goal-entry button {
       display: none; }
     .t-entries > .t-goal-entry.t-done {
       color: rgba(255, 255, 255, 0.5); }
@@ -71,20 +73,20 @@ div.t-action-component:hover > .t-show-on-hover {
           padding: 0px; }
           .t-entries > .t-goal-entry.t-done > .t-date-selector .Select-control .Select-placeholder {
             padding: 0px; }
-  .t-entries div:hover > button {
+  .t-entries div:hover button {
     display: inline; }
 
 .t-widget {
   background-color: rgba(255, 255, 255, 0.25);
-  min-width: 250px;
+  min-width: 200px;
   height: 150px;
   margin: 0px 10px 10px 0px;
   float: left;
   padding: 15px; }
   .t-widget.big {
-    width: 510px; }
+    width: 410px; }
   .t-widget > div .value {
-    font-size: 80px; }
+    font-size: 70px; }
   .t-widget > div .key {
     font-size: 20px;
     text-align: right;
@@ -104,5 +106,8 @@ button:hover {
 #header {
   margin: 0; }
 
-#view {
-  margin: 20px; }
+.t-entry-notification {
+  text-align: center;
+  margin: 30px; }
+  .t-entry-notification h3 {
+    font-weight: 100; }

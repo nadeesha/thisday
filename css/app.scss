@@ -74,7 +74,10 @@ div.t-action-component {
         >* {
             margin-left: 10px;
         }
-        > button {
+        .t-entry-actions {
+            margin-top: 2px;
+        }
+        button {
             display: none;
         }
         &.t-done {
@@ -97,7 +100,7 @@ div.t-action-component {
         }
     }
     div:hover {
-        >button {
+        button {
             display: inline;
         }
     }
@@ -105,17 +108,17 @@ div.t-action-component {
 
 .t-widget {
     background-color: rgba(255, 255, 255, 0.25);
-    min-width: 250px;
+    min-width: 200px;
     height: 150px;
     margin: 0px 10px 10px 0px;
     float: left;
     padding: 15px;
     &.big {
-        width: 510px;
+        width: 410px;
     }
     > div {
         .value {
-            font-size: 80px;
+            font-size: 70px;
             // margin-top: 20px;
             // position: fixed;
         }
@@ -141,14 +144,16 @@ button:hover {
     margin: 15px 10px;
 }
 
-.t-action {
-
-}
+.t-action {}
 
 #header {
     margin: 0;
 }
 
-#view {
-    margin: 20px;
+.t-entry-notification {
+    text-align: center;
+    margin: 30px;
+    h3 {
+        font-weight: 100;
+    }
 }

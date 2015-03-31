@@ -21,12 +21,12 @@ var Header = React.createClass({
 
 		if (!this.props.isLoggedIn) {
 			menuItems = [
-				<NavItemLink to="login">Login</NavItemLink>,
-				<NavItemLink to="signup">Signup</NavItemLink>
+				<NavItemLink to="login" key="login">Login</NavItemLink>,
+				<NavItemLink to="signup" hey="signup">Signup</NavItemLink>
 			];
 		} else {
 			menuItems = [
-				<NavItem onClick={this._onLogout}>Logout</NavItem>
+				<NavItem onClick={this._onLogout} key="logout">Logout</NavItem>
 			];
 		}
 

@@ -7,7 +7,7 @@ var GoalActions = require('../actions/GoalActions');
 
 var GoalEntries = React.createClass({
 
-    _onHideCompleted: function () {
+    _onHideCompleted: function() {
         GoalActions.clearCompleted();
     },
 
@@ -16,8 +16,9 @@ var GoalEntries = React.createClass({
             return (<GoalEntry key={goal._id} goal={goal} edit={this.props.setCurrentlyEditing} />);
         }, this);
 
-        return (
-            <div>
+        if (list.length > 0) {
+            return (
+                <div>
                 <div className="t-entries">
                     {list}
                 </div>
@@ -27,7 +28,14 @@ var GoalEntries = React.createClass({
                     </button>
                 </div>
             </div>
-        );
+            );
+        } else {
+            return (
+                <div className="t-entry-notification">
+                    <h3>You have not added any goals.<br/>Create one maybe?</h3>
+                </div>
+            );
+        }
     }
 });
 

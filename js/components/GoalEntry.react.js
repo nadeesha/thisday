@@ -32,18 +32,20 @@ var GoalEntry = React.createClass({
             <div className={entryClasses}>
 				<span className="t-text">{this.props.goal.text}</span>
 				<span className="t-text t-points">+{this.props.goal.points}</span>
-				<button
-                    onClick={this._onMarkAsDone}>
-                    <i className="t-action fa fa-check"></i>
-                </button>
-				<button
-                    onClick={this._onEdit}>
-                    <i className="t-action fa fa-pencil"></i>
-                </button>
-				<button
-                    onClick={this._onRemove}>
-                    <i className="t-action fa fa-trash-o"></i>
-                </button>
+                <span className="pull-right t-entry-actions">
+                    <button
+                        onClick={this._onMarkAsDone}>
+                        <i className="t-action fa fa-check"></i>
+                    </button>
+                    <button
+                        onClick={this._onEdit}>
+                        <i className="t-action fa fa-pencil"></i>
+                    </button>
+                    <button
+                        onClick={this._onRemove}>
+                        <i className="t-action fa fa-trash-o"></i>
+                    </button>
+                    </span>
 			</div>
         );
     }
