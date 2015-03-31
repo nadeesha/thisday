@@ -5,7 +5,6 @@ var EventEmitter = require('events').EventEmitter;
 var Constants = require('../constants/Constants');
 var _ = require('lodash');
 var PouchDB = require('pouchdb');
-var console = window.console;
 
 var _db = new PouchDB(Constants.DB_NAME);
 var _completionDate = null;
@@ -26,7 +25,7 @@ var GoalStore = _.assign({}, EventEmitter.prototype, {
                 // this is toString'd and then eval'd
                 // so I have to hardcode type here
 
-                if (doc.type === 'goal') {
+                if (doc.type === 'goal' && !doc.hidden) {
                     emit(doc);
                 }
             }
@@ -97,6 +96,25 @@ function changeCompletionDate(date) {
     GoalStore.emitChange();
 }
 
+function clearCompleted() {
+    _db.query(function(doc, emit) {
+        if (doc.done && !doc.hidden) {
+            emit(doc);
+        }
+    }).then(function (result) {
+        var docsToUpdate = _.clone(result.rows);
+
+        docsToUpdate = _.map(docsToUpdate, function (row) {
+            var doc = row.key;
+            return _.assign(doc, {hidden: true});
+        });
+
+        return _db.bulkDocs(docsToUpdate);
+    }).then(function () {
+        GoalStore.emitChange();
+    });
+}
+
 GoalStore.dispatchToken = AppDispatcher.register(function(action) {
     switch (action.actionType) {
         case Constants.GOAL_CREATE:
@@ -115,8 +133,9 @@ GoalStore.dispatchToken = AppDispatcher.register(function(action) {
         case Constants.CHANGE_COMPLETION_DATE:
             changeCompletionDate(action.date);
             break;
-        default:
-            console.log('unhandled action', action);
+        case Constants.GOAL_CLEAR_COMPLETED:
+            clearCompleted();
+            break;
     }
 });
 

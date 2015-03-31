@@ -3,25 +3,56 @@
 var React = require('react');
 var Header = require('./Header.react');
 var MyGoals = require('./MyGoals.react');
+var Login = require('./Login.react');
+var Signup = require('./Signup.react');
+var UserStore = require('../stores/UserStore');
 
-var Router = require('react-router'),
-    RouteHandler = Router.RouteHandler,
-    Route = Router.Route;
-
-// var ReactBootstrap = require('react-bootstrap'),
-//     Nav = ReactBootstrap.Nav;
-
-// var ReactRouterBootstrap = require('react-router-bootstrap'),
-//     NavItemLink = ReactRouterBootstrap.NavItemLink,
-//     ButtonLink = ReactRouterBootstrap.ButtonLink;
+var Router = require('react-router');
+var RouteHandler = Router.RouteHandler;
+var Route = Router.Route;
 
 var App = React.createClass({
+
+    contextTypes: {
+        router: React.PropTypes.func
+    },
+
+    getInitialState: function() {
+        return {
+            isLoggedIn: false
+        };
+    },
+
+    componentDidMount: function() {
+        this._updateLoginStatus();
+        UserStore.addChangeListener(this._onUserStoreChange);
+    },
+
+    componentWillUnmount: function() {
+        UserStore.removeChangeListener(this._onUserStoreChange);
+    },
+
+    _onUserStoreChange: function () {
+        this._updateLoginStatus();
+    },
+
+    _updateLoginStatus : function() {
+        this.setState({
+            isLoggedIn: UserStore.isLoggedIn()
+        });
+
+        if (UserStore.isLoggedIn()) {
+            this.context.router.transitionTo('mygoals');
+        }
+    },
 
     render: function() {
         return (
             <div id="container">
-                <Header />
-                <RouteHandler />
+                <Header isLoggedIn={this.state.isLoggedIn} />
+                <div id="view">
+                    <RouteHandler />
+                </div>
             </div>
         );
     }
@@ -31,6 +62,8 @@ var App = React.createClass({
 var routes = (
     <Route handler={App} path="/">
         <Route name="mygoals" path="mygoals" handler={MyGoals} />
+        <Route name="login" path="login" handler={Login} />
+        <Route name="signup" path="signup" handler={Signup} />
     </Route>
 );
 

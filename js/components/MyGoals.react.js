@@ -56,7 +56,7 @@ var MyGoals = React.createClass({
 
     render: function() {
         return (
-            <div className="row" id="view">
+            <div className="row" id="mygoals">
                 <GoalsView allGoals={this.state.allGoals} completionDate={this.state.completionDate} />
                 <Dashboard allGoals={this.state.allGoals} pointsByDate={this.state.pointsByDate} />
             </div>

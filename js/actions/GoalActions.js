@@ -41,4 +41,10 @@ GoalActions.changeCompletionDate = function (date) {
 	});
 };
 
+GoalActions.clearCompleted = function () {
+	AppDispatcher.dispatch({
+		actionType: Constants.GOAL_CLEAR_COMPLETED
+	});
+};
+
 module.exports = GoalActions;

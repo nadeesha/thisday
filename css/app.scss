@@ -3,28 +3,25 @@ body {
     color: white;
 }
 
-#view {
-    margin: 50px;
-}
-
 textarea:focus,
 input:focus {
     outline: 0;
 }
 
-input {
-    font-size: x-large;
-    background: rgba(255, 255, 255, 0.2);
-    border: 0px;
-    border-bottom: 1px solid #FFF;
-    width: 100%;
-    padding: 5px;
-}
-
-input:hover {
-    border: 0px;
-    border-bottom: 1px solid #FFF;
-    background: rgba(255, 255, 255, 0.25);
+#mygoals {
+    input {
+        font-size: x-large;
+        background: rgba(255, 255, 255, 0.2);
+        border: 0px;
+        border-bottom: 1px solid #FFF;
+        width: 100%;
+        padding: 5px;
+    }
+    input:hover {
+        border: 0px;
+        border-bottom: 1px solid #FFF;
+        background: rgba(255, 255, 255, 0.25);
+    }
 }
 
 @mixin placeholder {
@@ -68,7 +65,8 @@ div.t-action-component {
     font-size: large;
     margin-top: 10px;
     > .t-goal-entry {
-        height: 40px;
+        line-height: 32px;
+        height: 42px;
         margin-top: 10px;
         padding-bottom: 10px;
         // height: 50px;
@@ -131,7 +129,7 @@ div.t-action-component {
 
 button {
     background-color: rgba(255, 255, 255, 0.2);
-    border: 1px solid rgba(255, 255, 255, 0.5);
+    border: 1px solid rgba(255, 255, 255, 0.2);
     line-height: 14px;
 }
 
@@ -139,12 +137,18 @@ button:hover {
     background-color: rgba(255, 255, 255, 0.3);
 }
 
-.t-actions {
-    .t-action {
-        margin: 10px;
-    }
+.t-bottom-actions {
+    margin: 15px 10px;
+}
+
+.t-action {
+
 }
 
 #header {
     margin: 0;
+}
+
+#view {
+    margin: 20px;
 }

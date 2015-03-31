@@ -45,7 +45,7 @@ var GoalsView = React.createClass({
             changeDateButton = <button onClick={this._onDateRest}>reset to today</button>;
         } else {
             dateTaunt = <span>Today is {moment().format(Constants.DATE_FORMAT)}</span>;
-            changeDateButton = <button className="t-show-on-hover" onClick={this._onDateChange}>change to yesterday</button>;
+            changeDateButton = <button className="t-show-on-hover t-action" onClick={this._onDateChange}><i className="fa fa-calendar"></i> Change to yesterday</button>;
         }
 
         return (

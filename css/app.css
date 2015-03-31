@@ -2,22 +2,18 @@ body {
   background: lightseagreen;
   color: white; }
 
-#view {
-  margin: 50px; }
-
 textarea:focus,
 input:focus {
   outline: 0; }
 
-input {
+#mygoals input {
   font-size: x-large;
   background: rgba(255, 255, 255, 0.2);
   border: 0px;
   border-bottom: 1px solid #FFF;
   width: 100%;
   padding: 5px; }
-
-input:hover {
+#mygoals input:hover {
   border: 0px;
   border-bottom: 1px solid #FFF;
   background: rgba(255, 255, 255, 0.25); }
@@ -53,7 +49,8 @@ div.t-action-component:hover > .t-show-on-hover {
   font-size: large;
   margin-top: 10px; }
   .t-entries > .t-goal-entry {
-    height: 40px;
+    line-height: 32px;
+    height: 42px;
     margin-top: 10px;
     padding-bottom: 10px;
     border-bottom: 1px solid rgba(255, 255, 255, 0.2); }
@@ -95,14 +92,17 @@ div.t-action-component:hover > .t-show-on-hover {
 
 button {
   background-color: rgba(255, 255, 255, 0.2);
-  border: 1px solid rgba(255, 255, 255, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.2);
   line-height: 14px; }
 
 button:hover {
   background-color: rgba(255, 255, 255, 0.3); }
 
-.t-actions .t-action {
-  margin: 10px; }
+.t-bottom-actions {
+  margin: 15px 10px; }
 
 #header {
   margin: 0; }
+
+#view {
+  margin: 20px; }
