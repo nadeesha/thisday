@@ -47,4 +47,11 @@ GoalActions.clearCompleted = function () {
 	});
 };
 
+GoalActions.initiateSync = function (url) {
+	AppDispatcher.dispatch({
+		actionType: Constants.INITIATE_SYNC,
+		remoteUrl: url
+	});
+};
+
 module.exports = GoalActions;

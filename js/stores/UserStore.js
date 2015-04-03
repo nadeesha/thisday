@@ -4,9 +4,8 @@ var AppDispatcher = require('../dispatcher/AppDispatcher');
 var EventEmitter = require('events').EventEmitter;
 var Constants = require('../constants/Constants');
 var _ = require('lodash');
-var PouchDB = require('pouchdb');
 var Couchback = window.Couchback;
-var PouchDB = require('pouchdb');
+var GoalActions = require('../actions/GoalActions');
 
 var _isLoggedIn = false;
 
@@ -37,25 +36,13 @@ function setCachedUrl(url) {
     }
 }
 
-function syncPouch() {
-    _isLoggedIn = true;
-
-    PouchDB.sync(Constants.DB_NAME, getCachedUrl(), {
-        live: true,
-        retry: true
-    }).on('denied', function() {
-        _isLoggedIn = false;
-        UserStore.emitChange();
-    });
-}
-
 function login(user) {
     Couchback.signIn(user.username, user.password, function(err, response) {
         if (!err) {
             setCachedUrl(response.authUrl);
             _isLoggedIn = true;
-            syncPouch();
             UserStore.emitChange();
+            GoalActions.initiateSync(response.authUrl);
         }
     });
 }
@@ -83,15 +70,16 @@ AppDispatcher.register(function(action) {
             login(action.credentials);
             break;
         case Constants.USER_LOGOUT:
-        	logout();
-        	break;
+            logout();
+            break;
     }
 });
 
 // if a user had previously loggedin,
 // let's try to resume syncing
 if (getCachedUrl()) {
-    syncPouch();
+    _isLoggedIn = true;
+    GoalActions.initiateSync(getCachedUrl());
 }
 
 module.exports = UserStore;

@@ -1,7 +1,7 @@
 'use strict';
 
 var Constants = {
-	DB_NAME: 'thisday',
+	DB_NAME: 'thisday2',
 	GOAL_CREATE: 'goal_create',
 	GOAL_UPDATE: 'goal_update',
 	GOAL_REMOVE: 'goal_remove',
@@ -19,6 +19,7 @@ var Constants = {
 	USER_CREATE: 'user_create',
 	USER_LOGIN: 'user_login',
 	USER_LOGOUT: 'user_logout',
+	INITIATE_SYNC: 'initiate_sync',
 
 	// localstorage keys
 	AUTH_TOKEN: 'authToken',

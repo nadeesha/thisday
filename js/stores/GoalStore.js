@@ -5,17 +5,16 @@ var EventEmitter = require('events').EventEmitter;
 var Constants = require('../constants/Constants');
 var _ = require('lodash');
 var PouchDB = require('pouchdb');
+var UserActions = require('../actions/UserActions');
 
+PouchDB.debug.disable();
 var _db = new PouchDB(Constants.DB_NAME);
 var _completionDate = null;
+var _sync;
 
 function handleErr(err) {
     throw err;
 }
-
-// function initiateSync(remoteDbUrl) {
-//     PouchDB.sync(Constants.DB_NAME, remoteDbUrl);
-// }
 
 var GoalStore = _.assign({}, EventEmitter.prototype, {
     getAll: function(callback) {
@@ -101,18 +100,40 @@ function clearCompleted() {
         if (doc.done && !doc.hidden) {
             emit(doc);
         }
-    }).then(function (result) {
+    }).then(function(result) {
         var docsToUpdate = _.clone(result.rows);
 
-        docsToUpdate = _.map(docsToUpdate, function (row) {
+        docsToUpdate = _.map(docsToUpdate, function(row) {
             var doc = row.key;
-            return _.assign(doc, {hidden: true});
+            return _.assign(doc, {
+                hidden: true
+            });
         });
 
         return _db.bulkDocs(docsToUpdate);
-    }).then(function () {
+    }).then(function() {
         GoalStore.emitChange();
     });
+}
+
+function initiateSync(url) {
+    _sync = PouchDB.sync(Constants.DB_NAME, url, {
+        live: true,
+        retry: true
+    }).on('denied', function() {
+        UserActions.logout();
+    }).on('paused', function() {
+        // sync done
+        GoalStore.emitChange();
+    }).on('active', function () {
+        // sync started
+    }).on('complete', function () {
+        _db.destroy();
+    });
+}
+
+function removeSync() {
+    _sync.cancel();
 }
 
 GoalStore.dispatchToken = AppDispatcher.register(function(action) {
@@ -135,6 +156,12 @@ GoalStore.dispatchToken = AppDispatcher.register(function(action) {
             break;
         case Constants.GOAL_CLEAR_COMPLETED:
             clearCompleted();
+            break;
+        case Constants.USER_LOGOUT:
+            removeSync();
+            break;
+        case Constants.INITIATE_SYNC:
+            initiateSync(action.remoteUrl);
             break;
     }
 });
