@@ -48,7 +48,9 @@ function login(user) {
 }
 
 function createUser(user) {
-    Couchback.signUp(user.username, user.password, function(err) {
+    Couchback.signUp(user.username, user.password, {
+        email: user.username
+    }, function(err) {
         if (!err) {
             login(user);
         }

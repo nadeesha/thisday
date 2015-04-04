@@ -11,6 +11,7 @@ PouchDB.debug.disable();
 var _db = new PouchDB(Constants.DB_NAME);
 var _completionDate = null;
 var _sync;
+var _syncStatus = Constants.NOT_SYNCING;
 
 function handleErr(err) {
     throw err;
@@ -44,6 +45,9 @@ var GoalStore = _.assign({}, EventEmitter.prototype, {
     },
     getCompletionDate: function() {
         return _completionDate || new Date();
+    },
+    getSyncStatus: function () {
+        return _syncStatus;
     },
     emitChange: function() {
         this.emit(Constants.CHANGE_EVENT);
@@ -123,12 +127,15 @@ function initiateSync(url) {
     }).on('denied', function() {
         UserActions.logout();
     }).on('paused', function() {
-        // sync done
+        _syncStatus = Constants.NOT_SYNCING;
         GoalStore.emitChange();
     }).on('active', function () {
-        // sync started
+        _syncStatus = Constants.SYNCING;
+        GoalStore.emitChange();
     }).on('complete', function () {
-        _db.destroy();
+        _db.destroy().then(function () {
+            _db = new PouchDB(Constants.DB_NAME);
+        });
     });
 }
 

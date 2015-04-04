@@ -78,13 +78,13 @@ div.t-action-component:hover > .t-show-on-hover {
 
 .t-widget {
   background-color: rgba(255, 255, 255, 0.25);
-  min-width: 200px;
+  min-width: 220px;
   height: 150px;
   margin: 0px 10px 10px 0px;
   float: left;
   padding: 15px; }
   .t-widget.big {
-    width: 410px; }
+    width: 450px; }
   .t-widget > div .value {
     font-size: 70px; }
   .t-widget > div .key {
@@ -111,3 +111,6 @@ button:hover {
   margin: 30px; }
   .t-entry-notification h3 {
     font-weight: 100; }
+
+.jumbotron {
+  background-color: rgba(255, 255, 255, 0.2); }

@@ -31,7 +31,8 @@
   "scripts": {
     "start": "watchify js/components/App.react.js -o js/bundle.js -v -d .",
     "build": "NODE_ENV=production browserify . | uglifyjs -cm > js/bundle.min.js",
-    "test": "jest"
+    "test": "jest",
+    "serve": "static -p 5051"
   },
   "browserify": {
     "transform": [

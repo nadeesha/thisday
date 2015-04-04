@@ -20,6 +20,8 @@ var Constants = {
 	USER_LOGIN: 'user_login',
 	USER_LOGOUT: 'user_logout',
 	INITIATE_SYNC: 'initiate_sync',
+	SYNCING: 'syncing',
+	NOT_SYNCING: 'not_syncing',
 
 	// localstorage keys
 	AUTH_TOKEN: 'authToken',
