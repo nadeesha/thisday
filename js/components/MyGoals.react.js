@@ -5,21 +5,33 @@ var GoalsView = require('./GoalsView.react');
 var Dashboard = require('./Dashboard.react');
 var GoalStore = require('../stores/GoalStore');
 var WidgetStore = require('../stores/WidgetStore');
+var UserStore = require('../stores/UserStore');
+
+var ReactBoostrap = require('react-bootstrap');
+var Alert = ReactBoostrap.Alert;
 
 var MyGoals = React.createClass({
 
     getInitialState: function() {
         return {
             allGoals: [],
-            pointsByDate: []
+            pointsByDate: [],
+            showAlert: true
         };
     },
 
     componentDidMount: function() {
         GoalStore.addChangeListener(this._onGoalStoreChange);
         WidgetStore.addChangeListener(this._onWidgetStoreChange);
+        UserStore.addChangeListener(this._onUserStoreChange);
         this._updateGoals();
         this._updateWidgets();
+
+        if (UserStore.isLoggedIn()) {
+            this.setState({
+                showAlert: false
+            });
+        }
     },
 
     componentWillUnmount: function() {
@@ -46,19 +58,46 @@ var MyGoals = React.createClass({
         }.bind(this));
     },
 
-    _updateWidgets: function () {
-        WidgetStore.getPointsByDate(function (points) {
+    _updateWidgets: function() {
+        WidgetStore.getPointsByDate(function(points) {
             this.setState({
                 pointsByDate: points
             });
         }.bind(this));
     },
 
+    _onUserStoreChange: function() {
+        if (this.state.showAlert) {
+            this.setState({
+                showAlert: !UserStore.isLoggedIn()
+            });
+        }
+    },
+
+    _onAlertDismissal: function () {
+        this.setState({
+            showAlert: false
+        });
+    },
+
     render: function() {
+        var alert = <span/>;
+
+        if (this.state.showAlert) {
+            alert = <div className="row">
+                        <Alert bsStyle="info" onDismiss={this._onAlertDismissal}>
+                            It seems that you are not logged in. If you want to save changes under your account, please log in.
+                        </Alert>
+                    </div>;
+        }
+
         return (
-            <div className="row" id="mygoals">
-                <Dashboard className="col-md-6" allGoals={this.state.allGoals} pointsByDate={this.state.pointsByDate} />
-                <GoalsView className="col-md-6" allGoals={this.state.allGoals} completionDate={this.state.completionDate} />
+            <div>
+                {alert}
+                <div className="row" id="mygoals">
+                    <Dashboard className="col-md-6" allGoals={this.state.allGoals} pointsByDate={this.state.pointsByDate} />
+                    <GoalsView className="col-md-6" allGoals={this.state.allGoals} completionDate={this.state.completionDate} />
+                </div>
             </div>
         );
     }
