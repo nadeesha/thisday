@@ -13,7 +13,12 @@ var NavItemLink = ReactRouterBootstrap.NavItemLink;
 
 var Header = React.createClass({
 
+	contextTypes: {
+        router: React.PropTypes.func
+    },
+
 	_onLogout: function () {
+		this.context.router.transitionTo('home');
 		UserActions.logout();
 	},
 
@@ -38,7 +43,7 @@ var Header = React.createClass({
 
 		return (
 			<div id="header">
-				<Navbar brand='thisday'>
+				<Navbar brand='Thisday'>
 					<Nav className="navbar-right">
 						{menuItems}
 					</Nav>

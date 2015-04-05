@@ -70,19 +70,18 @@ var App = React.createClass({
             </div>
         );
     }
-
 });
 
 var routes = (
     <Route handler={App} path="/">
-        <DefaultRoute handler={Home}/>
+        <DefaultRoute name="home" handler={Home}/>
         <Route name="mygoals" path="mygoals" handler={MyGoals} />
         <Route name="login" path="login" handler={Login} />
         <Route name="signup" path="signup" handler={Signup} />
     </Route>
 );
 
-Router.run(routes, function(Handler) {
+Router.run(routes, Router.HistoryLocation, function(Handler) {
     React.render(<Handler/>, document.body);
 });
 

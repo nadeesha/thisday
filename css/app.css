@@ -114,3 +114,21 @@ button:hover {
 
 .jumbotron {
   background-color: rgba(255, 255, 255, 0.2); }
+
+.tour-tooltip .tour-btn.close {
+  cursor: pointer;
+  display: block;
+  width: auto;
+  margin: 0 auto;
+  background-color: #ffffff;
+  border: 1px solid #dddddd;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
+  padding: 3px;
+  text-align: center;
+  font-size: 14px;
+  float: none;
+  font-weight: normal;
+  text-shadow: none;
+  opacity: 1.0; }
