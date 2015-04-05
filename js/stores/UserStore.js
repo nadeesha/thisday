@@ -37,17 +37,37 @@ function setCachedUrl(url) {
 }
 
 function login(user) {
+    new window.PNotify({
+        text: 'Logging you in.',
+        type: 'info'
+    });
+
     Couchback.signIn(user.username, user.password, function(err, response) {
         if (!err) {
+            new window.PNotify({
+                text: 'You\'re logged in.',
+                type: 'success'
+            });
+
             setCachedUrl(response.authUrl);
             _isLoggedIn = true;
             UserStore.emitChange();
             GoalActions.initiateSync(response.authUrl);
+        } else {
+            new window.PNotify({
+                text: 'Invalid username/password',
+                type: 'error'
+            });
         }
     });
 }
 
 function createUser(user) {
+    new window.PNotify({
+        text: 'Creating your account.',
+        type: 'info'
+    });
+
     Couchback.signUp(user.username, user.password, {
         email: user.username
     }, function(err) {

@@ -73,7 +73,7 @@ var Dashboard = React.createClass({
         var sinceLastHours = moment().diff(lastDone.completedOn, 'hours');
         var sinceLastMinutes = moment().diff(lastDone.completedOn, 'minutes') - sinceLastHours * 60;
         var sinceLastTmpl = _.template('<%= hours %>:<%= minutes %>');
-        var sinceLast = sinceLastTmpl({
+        sinceLast = sinceLastTmpl({
             hours: _.padLeft(sinceLastHours, 2, '0'),
             minutes: _.padLeft(sinceLastMinutes, 2, '0')
         });
@@ -111,7 +111,7 @@ var Dashboard = React.createClass({
         });
 
         return (
-            <div className="col-md-6 t-widgets">
+            <div id="t-dashboard" className="col-md-6 t-widgets">
                 <SparklineWidget data={datesHashMap} />
                 <Widget name="Today" value={points.today} type={Constants.TYPE_INTEGER} />
                 <Widget name="Yesterday" value={points.yesterday} type={Constants.TYPE_INTEGER} />

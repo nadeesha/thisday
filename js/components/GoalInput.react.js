@@ -4,7 +4,6 @@ var React = require('react');
 var _ = require('lodash');
 var Constants = require('../constants/Constants');
 var GoalActions = require('../actions/GoalActions');
-var console = window.console;
 
 var GoalInput = React.createClass({
 
@@ -33,9 +32,14 @@ var GoalInput = React.createClass({
         }
     },
 
-    _saveGoal: function(argument) {
+    _saveGoal: function() {
         if (!this.state.points || !this.state.text) {
-            console.error(this.state.error);
+            new window.PNotify({
+                text: 'Goal must be defined with +points',
+                type: 'error'
+            });
+
+            return;
         }
 
         if (!this.props.toEdit) {
@@ -110,6 +114,7 @@ var GoalInput = React.createClass({
     render: function() {
         return (
             <input
+                id="t-goal-input"
                 type="text"
                 className="t-input"
                 placeholder="I am going to achieve this +5"

@@ -9,6 +9,13 @@ var UserActions = require('../actions/UserActions');
 
 var Signup = React.createClass({
 
+	getInitialState: function () {
+		return {
+			email: null,
+			password: null
+		};
+	},
+
 	_onEmailChange: function (e) {
 		this.setState({
 			email: e.target.value
@@ -21,13 +28,11 @@ var Signup = React.createClass({
 		});
 	},
 
-	_onPasswordConfirmationChange: function (e) {
-		this.setState({
-			passwordConfirmation: e.target.value
-		});
-	},
-
 	_signUp: function () {
+		if (!this.state.email || !this.state.password) {
+			return;
+		}
+
 		UserActions.create({
 			username: this.state.email,
 			password: this.state.password
@@ -37,11 +42,13 @@ var Signup = React.createClass({
 	render: function() {
 		return (
 			<form className="form-horizontal row">
-				<Input type="email"
+				<Input
+					type="email"
 					label="E-mail"
 					onChange={this._onEmailChange}
 					labelClassName="col-md-2"
 					wrapperClassName="col-md-3"
+					required="true"
 				/>
 				<Input
 					type="password"
@@ -49,13 +56,7 @@ var Signup = React.createClass({
 					onChange={this._onPasswordChange}
 					labelClassName="col-md-2"
 					wrapperClassName="col-md-3"
-				/>
-				<Input
-					type="password"
-					label="Password Confirmation"
-					onChange={this._onPasswordConfirmationChange}
-					labelClassName="col-md-2"
-					wrapperClassName="col-md-3"
+					required="true"
 				/>
 				<Button
 					className="col-md-offset-2"

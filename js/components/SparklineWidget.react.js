@@ -25,7 +25,7 @@ var SparklineWidget = React.createClass({
 			<div className="t-widget big">
 				<Sparkline
 					data={values}
-					width="410"
+					width="440"
 					height="120"
 					strokeColor="white"
 					strokeWidth="2px"

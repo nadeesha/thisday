@@ -6,11 +6,64 @@ var Dashboard = require('./Dashboard.react');
 var GoalStore = require('../stores/GoalStore');
 var WidgetStore = require('../stores/WidgetStore');
 var UserStore = require('../stores/UserStore');
+var tourGuideMixin = require('react-tour-guide').Mixin;
 
 var ReactBoostrap = require('react-bootstrap');
 var Alert = ReactBoostrap.Alert;
 
+var tour = {
+    startIndex: localStorage.getItem('tour-startIndex') || 0,
+    scrollToSteps: true,
+    steps: [{
+        text: 'This is where you enter your goals. You can define a number of' +
+            ' points to gain after you complete the goal',
+        element: '#t-goal-input',
+        position: 'left'
+    }, {
+        text: 'Example: Write new essay +7',
+        element: '#t-goal-input',
+        position: 'bottom'
+    }, {
+        text: 'Press <enter> to add your new goal.',
+        element: '#t-goal-input',
+        position: 'right'
+    }, {
+        text: 'When you complete your goals, you can see your points' +
+            ' and other visualizations in the dashboard.',
+        element: '#t-dashboard',
+        position: 'top'
+    }, {
+        text: 'If you forgot to mark yesterday\'s goals, hover over today\'s ' +
+            'date to change it.',
+        element: '#t-goal-date',
+        position: 'left'
+    }, {
+        text: 'Try adding specific, achievable goals, that you can finish ' +
+            'within a few hours in a day. Break down large goals into small ' +
+            'ones.',
+        element: '#mygoals',
+        position: 'center'
+    }],
+    completed: false
+};
+
+function tourCompleted() {
+    localStorage.setItem('tour-startIndex', tour.steps.length);
+
+    new window.PNotify({
+        title: 'Thanks for taking the tour',
+        text: 'Let\'s start adding some goals!',
+        type: 'success'
+    });
+}
+
+if (tour.steps.length.toString() === localStorage.getItem('tour-startIndex')) {
+    tour.completed = true;
+}
+
 var MyGoals = React.createClass({
+
+    mixins: [tour.completed ? null : tourGuideMixin(tour, tourCompleted)],
 
     getInitialState: function() {
         return {
@@ -74,7 +127,7 @@ var MyGoals = React.createClass({
         }
     },
 
-    _onAlertDismissal: function () {
+    _onAlertDismissal: function() {
         this.setState({
             showAlert: false
         });

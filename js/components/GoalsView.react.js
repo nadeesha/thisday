@@ -50,7 +50,7 @@ var GoalsView = React.createClass({
 
         return (
             <div className="col-md-6">
-                <div className="t-goal-date t-action-component">
+                <div id="t-goal-date" className="t-goal-date t-action-component">
                     {dateTaunt}
                     {changeDateButton}
                 </div>
