@@ -125,6 +125,7 @@ function initiateSync(url) {
         UserActions.logout();
     }).on('paused', function() {
         _syncStatus = Constants.NOT_SYNCING;
+        GoalStore.emitChange();
     }).on('active', function () {
         if (_syncStatus === Constants.NOT_SYNCING) {
             new window.PNotify({
