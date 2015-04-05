@@ -7,7 +7,6 @@ var Login = require('./Login.react');
 var Signup = require('./Signup.react');
 var Home = require('./Home.react');
 var UserStore = require('../stores/UserStore');
-var GoalStore = require('../stores/GoalStore');
 
 var Router = require('react-router');
 var RouteHandler = Router.RouteHandler;
@@ -29,22 +28,14 @@ var App = React.createClass({
     componentDidMount: function() {
         this._updateLoginStatus();
         UserStore.addChangeListener(this._onUserStoreChange);
-        GoalStore.addChangeListener(this._onGoalStoreChange);
     },
 
     componentWillUnmount: function() {
         UserStore.removeChangeListener(this._onUserStoreChange);
-        GoalStore.removeChangeListener(this._onGoalStoreChange);
     },
 
     _onUserStoreChange: function() {
         this._updateLoginStatus();
-    },
-
-    _onGoalStoreChange: function() {
-        this.setState({
-            syncStatus: GoalStore.getSyncStatus()
-        });
     },
 
     _updateLoginStatus: function() {
@@ -62,7 +53,6 @@ var App = React.createClass({
             <div id="container">
                 <Header
                     isLoggedIn={this.state.isLoggedIn}
-                    syncStatus={this.state.syncStatus}
                 />
                 <div id="view" className="container">
                     <RouteHandler />

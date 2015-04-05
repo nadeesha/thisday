@@ -46,9 +46,6 @@ var GoalStore = _.assign({}, EventEmitter.prototype, {
     getCompletionDate: function() {
         return _completionDate || new Date();
     },
-    getSyncStatus: function () {
-        return _syncStatus;
-    },
     emitChange: function() {
         this.emit(Constants.CHANGE_EVENT);
     },
@@ -128,10 +125,14 @@ function initiateSync(url) {
         UserActions.logout();
     }).on('paused', function() {
         _syncStatus = Constants.NOT_SYNCING;
-        GoalStore.emitChange();
     }).on('active', function () {
+        if (_syncStatus === Constants.NOT_SYNCING) {
+            new window.PNotify({
+                text: 'Syncing',
+                type: 'info'
+            });
+        }
         _syncStatus = Constants.SYNCING;
-        GoalStore.emitChange();
     }).on('complete', function () {
         _db.destroy().then(function () {
             _db = new PouchDB(Constants.DB_NAME);
